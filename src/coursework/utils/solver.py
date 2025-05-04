@@ -2,13 +2,17 @@ import itertools
 from collections import defaultdict
 from copy import deepcopy
 from dataclasses import dataclass
-from pprint import pprint
-from typing import Dict
+from enum import Enum, auto
 
 import numpy as np
 
 from src.coursework.models.chain import Chain
 from src.coursework.models.task import Task
+
+
+class MetricType(Enum):
+    WAITING_TIME = auto()
+    COMPLETION_TIME = auto()
 
 
 @dataclass
@@ -59,17 +63,36 @@ class Solver:
         return TaskMetrics(waiting_time, completion_time, average)
 
     @staticmethod
-    def solve_with_chains(chains: list[Chain], reverse: bool = False) -> tuple[str, float]:
+    def get_metric_value(metrics: TaskMetrics, metric_type: MetricType) -> float:
+        if metric_type == MetricType.WAITING_TIME:
+            return metrics.waiting_time
+        return metrics.completion_time
+
+    @staticmethod
+    def solve_with_chains(
+            chains: list[Chain],
+            reverse: bool = False,
+            metric_type: MetricType = MetricType.COMPLETION_TIME,
+            average: bool = False
+    ) -> tuple[str, float]:
         sorted_chains = sorted(chains, key=lambda x: sum(task.t for task in x.tasks) / sum(task.u for task in x.tasks),
                                reverse=reverse)
 
         optimal_order = " ".join(chain.letter for chain in sorted_chains)
         tasks = itertools.chain.from_iterable(chain.tasks for chain in sorted_chains)
 
-        return optimal_order, Solver.calculate_task_metrics(tasks).completion_time
+        metrics = Solver.calculate_task_metrics(tasks, average=average)
+        criterion = Solver.get_metric_value(metrics, metric_type)
+
+        return optimal_order, criterion
 
     @staticmethod
-    def solve_with_tasks(chains: list[Chain], reverse: bool = False) -> tuple[str, float]:
+    def solve_with_tasks(
+            chains: list[Chain],
+            reverse: bool = False,
+            metric_type: MetricType = MetricType.COMPLETION_TIME,
+            average: bool = False
+    ) -> tuple[str, float]:
         remaining_chains = deepcopy(chains)
         optimal_sequence = []
 
@@ -108,19 +131,7 @@ class Solver:
         optimal_order = " ".join(f"{chain[0]}{task.i}" for chain in optimal_sequence for task in chain[1])
         tasks = itertools.chain.from_iterable(chain[1] for chain in optimal_sequence)
 
-        return optimal_order, Solver.calculate_task_metrics(tasks).completion_time
+        metrics = Solver.calculate_task_metrics(tasks, average=average)
+        criterion = Solver.get_metric_value(metrics, metric_type)
 
-
-if __name__ == "__main__":
-    chains = [
-        Chain(letter="A", tasks=[Task(i=1, t=1, u=2), Task(i=2, t=2, u=6), Task(i=3, t=3, u=9)]),
-        Chain(letter="B", tasks=[Task(i=1, t=4, u=20), Task(i=2, t=5, u=10)]),
-        Chain(letter="C", tasks=[Task(i=1, t=3, u=18), Task(i=2, t=2, u=4), Task(i=3, t=1, u=2), Task(i=4, t=4, u=12),
-                                 Task(i=5, t=5, u=15)]),
-    ]
-
-    # Розв'язання задачі
-    solver = Solver()
-    optimal_order, criterion = solver.solve_with_tasks(chains, reverse=False)
-    print(f"Оптимальний порядок (asc): {optimal_order}")
-    print(f"Значення критерію (asc): {criterion}")
+        return optimal_order, criterion

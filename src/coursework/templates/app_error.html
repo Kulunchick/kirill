@@ -1,0 +1,21 @@
+{% include 'partials/header.html' %}
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+<div class="container mt-5 rounded border border-3 w-85 p-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="text-center">
+                <h1>Схоже, що виникла помилка :с</h1>
+                <p>{{ error_message }}</p>
+                <button class="btn btn-primary btn-md mt-3" onclick="goBack()">Повернутись назад</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'partials/footer.html' %}

@@ -1,0 +1,110 @@
+{% include 'partials/header.html' %}
+
+<div class="jumbotron d-flex align-items-center min-vh-100">
+    <div class="container w-50 border border-3 border-secondary rounded-4 px-5">
+        <form method="post" action="{{ url_for('handle_delayed_post_request') }}">
+            <div class="container border border-2 border-secondary rounded-2 my-4 py-2">
+                <h5>Параметри робіт</h5>
+                <div class="row mb-3">
+                    <label for="amountFrom" class="col-sm-3 col-form-label">Кількість ланцюгів:</label>
+                    <div class="col-sm-9">
+                        <input type="number" min="2" max="10" class="form-control" name="n"
+                               placeholder="Введіть кількість" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="amountFrom" class="col-sm-3 col-form-label">Довжина ланцюгів:</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <span class="input-group-text">Від</span>
+                            <input type="number" min="1" max="10" class="form-control" name="size_min"
+                                   placeholder="Введіть кількість" required>
+                            <span class="input-group-text">До</span>
+                            <input type="number" min="1" max="10" class="form-control" name="size_max"
+                                   placeholder="Введіть кількість" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="amountFrom" class="col-sm-3 col-form-label">Тривалості робіт:</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <span class="input-group-text">Від</span>
+                            <input type="number" min="1" max="80" class="form-control" name="t_min"
+                                   placeholder="Введіть кількість" required>
+                            <span class="input-group-text">До</span>
+                            <input type="number" min="1" max="100" class="form-control" name="t_max"
+                                   placeholder="Введіть кількість" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="amountFrom" class="col-sm-3 col-form-label">Ваги робіт:</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <span class="input-group-text">Від</span>
+                            <input type="number" min="1" max="80" class="form-control" name="u_min"
+                                   placeholder="Введіть кількість" required>
+                            <span class="input-group-text">До</span>
+                            <input type="number" min="1" max="100" class="form-control" name="u_max"
+                                   placeholder="Введіть кількість" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container border border-2 border-secondary rounded-2 my-4 py-2">
+                <h5>Параметри категорії питань</h5>
+                <div class="row mb-3">
+                    <label for="amount" class="col-sm-4 col-form-label">Кількість тестових питань:</label>
+                    <div class="col-sm-8">
+                        <input type="number" min="1" max="9999" class="form-control" name="tests_amount"
+                               placeholder="Введіть кількість" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="amount" class="col-sm-4 col-form-label">Назва тестових питань:</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" name="test_name" placeholder="Введіть назву" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container border border-2 border-secondary rounded-2 my-4 py-2">
+                <h5>Параметри розв'язку</h5>
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Тип значення:</label>
+                    <div class="col-sm-8">
+                        <select class="form-select" name="value_type" required>
+                            <option value="min">Мінімум</option>
+                            <option value="max">Максимум</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Спосіб обчислення:</label>
+                    <div class="col-sm-8">
+                        <select class="form-select" name="calculation_type" required>
+                            <option value="total">Сумарне</option>
+                            <option value="average">Середнє</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Цільовий критерій:</label>
+                    <div class="col-sm-8">
+                        <select class="form-select" name="metric_type" required>
+                            <option value="completion_time">Тривалість проходження</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center mb-3 mx-2">
+                <button type="submit" class="btn btn-primary">Згенерувати тестові питання</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% include 'partials/footer.html' %}

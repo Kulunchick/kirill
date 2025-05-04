@@ -1,7 +1,9 @@
 import random
 from typing import List
+
 from src.coursework.models.chain import Chain
 from src.coursework.models.task import Task
+
 
 class ChainGenerator:
     def __init__(self,
@@ -26,14 +28,13 @@ class ChainGenerator:
         for i in range(self.n):
             chain_size = random.randint(self.min_size, self.max_size)
 
-            # Створюємо список завдань з випадковими t та u
             tasks = [
                 Task(
                     i=j,
                     t=random.randint(self.min_t, self.max_t),
                     u=random.randint(self.min_u, self.max_u)
                 )
-                for j in range(chain_size)
+                for j in range(1, chain_size + 1)
             ]
 
             chain = Chain(
