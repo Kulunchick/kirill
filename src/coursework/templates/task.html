@@ -1,0 +1,29 @@
+<p>
+    <span style="font-size: 0.9375rem;">Дано:&nbsp;</span><span lang="EN-US" style="font-size: 0.9375rem;">&nbsp;<i>m</i>&nbsp;= 1,&nbsp;<i>n</i>&nbsp;= {{ chains|map(attribute='tasks')|map('length')|sum }}.&nbsp;</span><br><span lang="EN-US" style="font-size: 0.9375rem;">Множина робіт розбита на 3 групи (ланцюги).&nbsp;</span>
+    <span style="font-size: 0.9375rem;">Тривалості робіт ( ij </span>«math xmlns=¨http://www.w3.org/1998/Math/MathML¨»«mo»/«/mo»«msub»«mi»t«/mi»«mrow»«mi»i«/mi»«mi»j«/mi»«/mrow»«/msub»«/math» «math xmlns=¨http://www.w3.org/1998/Math/MathML¨»«mo»/«/mo»«msub»«mi»u«/mi»«mrow»«mi»i«/mi»«mi»j«/mi»«/mrow»«/msub»«/math»<span style="font-size: 0.9375rem;">):</span>
+</p>
+
+<p>
+    {% for chain in chains %}
+    <span style="font-size: 0.9375rem;">ланцюг {{ chain.letter }}:&nbsp;&nbsp;
+        {% for task in chain.tasks %}
+            {{ chain.letter }}{{ task.i + 1 }}/&nbsp;<b>{{ task.t }}</b>&nbsp;/&nbsp;<b>{{ task.u }}</b>
+        {% endfor %}
+    </span><br>
+    {% endfor %}
+</p>
+
+
+<span>Знайти таке упорядкування робіт, при якому досягає мінімуму <b>сумарна</b> тривалість проходження робіт за умов
+    <br>а) задане часткове упорядкування робіт (порядок виконання робіт всередині кожної групи фіксований = <i>ланцюги не можуть розриватися</i>)
+    <br><b>Оптимальне впорядкування груп робіт: {2:SA:=_____}</b>
+    <br><i>Формат відповіді: порядок виконання груп (імена груп через пробіл), наприклад: C A B</i>
+    <br><b>Опт. значення критерія</b>: {1:NUMERICAL:=_____:0}
+    <br>
+    <p></p>
+    б) задане відношення передування (<i>ланцюги можуть розриватися</i>)
+    <br><b>Оптимальне впорядкування робіт: {2:SA:=_____}</b>
+    <br><i>Формат відповіді (порядок виконання робіт): B1 A1 B2 A2 C1 C2 A3 C3</i>
+    <br><b>Опт. значення критерія</b>: {1:NUMERICAL:=_____:0}
+    <br><br><br>
+</span>
