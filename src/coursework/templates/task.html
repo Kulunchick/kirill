@@ -1,7 +1,7 @@
 <p>
     <span style="font-size: 0.9375rem;">Дано:&nbsp;</span><span lang="EN-US"
                                                                 style="font-size: 0.9375rem;">&nbsp;<i>m</i>&nbsp;= 1,&nbsp;<i>n</i>&nbsp;= {{ chains|map(attribute='tasks')|map('length')|sum }}.&nbsp;</span><br><span
-        lang="EN-US" style="font-size: 0.9375rem;">Множина робіт розбита на 3 групи (ланцюги).&nbsp;</span>
+        lang="EN-US" style="font-size: 0.9375rem;">Множина робіт розбита на {{ chains | length }} групи (ланцюги).&nbsp;</span>
     <span style="font-size: 0.9375rem;">Тривалості робіт ( ij </span>«math
     xmlns=¨http://www.w3.org/1998/Math/MathML¨»«mo»/«/mo»«msub»«mi»t«/mi»«mrow»«mi»i«/mi»«mi»j«/mi»«/mrow»«/msub»«/math»
     «math
@@ -22,7 +22,7 @@
 
 <span>Знайти таке упорядкування робіт, при якому досягає {% if is_maximum %}максимуму{% else %}мінімуму{% endif %} <b>{% if is_average %}середня{% else %}сумарна{% endif %}</b> тривалість проходження робіт за умов
     <br>а) задане часткове упорядкування робіт (порядок виконання робіт всередині кожної групи фіксований = <i>ланцюги не можуть розриватися</i>)
-    <br><b>Оптимальне впорядкування груп робіт: {2:SA:={{ solution.distribution1 }}</b>
+    <br><b>Оптимальне впорядкування груп робіт: {2:SA:={{ solution.distribution1 }}}</b>
     <br><i>Формат відповіді: порядок виконання груп (імена груп через пробіл), наприклад: C A B</i>
     <br><b>Опт. значення критерія</b>: {1:NUMERICAL:={{ solution.criterion1 | round(2) }}:0}
     <br>
