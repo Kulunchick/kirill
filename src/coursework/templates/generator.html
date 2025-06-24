@@ -72,28 +72,11 @@
             <div class="container border border-2 border-secondary rounded-2 my-4 py-2">
                 <h5>Параметри розв'язку</h5>
                 <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Тип значення:</label>
-                    <div class="col-sm-8">
-                        <select class="form-select" name="value_type" required>
-                            <option value="min">Мінімум</option>
-                            <option value="max">Максимум</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Спосіб обчислення:</label>
+                    <label class="col-sm-4 col-form-label">Цільова функція:</label>
                     <div class="col-sm-8">
                         <select class="form-select" name="calculation_type" required>
                             <option value="total">Сумарне</option>
-                            <option value="average">Середнє</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Цільовий критерій:</label>
-                    <div class="col-sm-8">
-                        <select class="form-select" name="metric_type" required>
-                            <option value="completion_time">Тривалість проходження</option>
+                            <option value="average">Середнє зважене</option>
                         </select>
                     </div>
                 </div>
@@ -102,6 +85,9 @@
 
             <div class="row justify-content-center mb-3 mx-2">
                 <button type="submit" class="btn btn-primary">Згенерувати тестові питання</button>
+            </div>
+            <div class="row justify-content-center mb-3 mx-2">
+                <a href="{{ url_for('solve_single') }}" class="btn btn-secondary">Розв'язати одну задачу</a>
             </div>
         </form>
     </div>

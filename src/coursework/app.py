@@ -1,8 +1,12 @@
 """Основний файл - запускає веб-сервер"""
+import json
+from string import ascii_uppercase
 
 from flask import Flask, render_template, request, make_response
 
+from src.coursework.models.chain import Chain
 from src.coursework.models.solution import Solution
+from src.coursework.models.task import Task
 from src.coursework.utils.generator import ChainGenerator
 from src.coursework.utils.solver import Solver, MetricType, NonUniqueRatioError
 
@@ -28,9 +32,9 @@ def handle_delayed_post_request():
     }
 
     # Параметри розв'язку
-    reverse = form_data['value_type'] == 'max'
+    reverse = False
     average = form_data['calculation_type'] == 'average'
-    metric_type = MetricType.WAITING_TIME if form_data['metric_type'] == 'waiting_time' else MetricType.COMPLETION_TIME
+    metric_type = MetricType.COMPLETION_TIME
 
     # Генеруємо ланцюги
     generator = ChainGenerator(
@@ -94,6 +98,64 @@ def handle_delayed_post_request():
     response.headers['Content-Disposition'] = 'attachment; filename=generated_tasks.html'
 
     return response
+
+
+@app.route("/solve-single")
+def solve_single():
+    return render_template("single_task.html", title="Розв'язати задачу")
+
+
+@app.route("/handle-single-task", methods=["POST"])
+def handle_single_task():
+    form_data = request.form
+    chains_str = form_data['chains']
+
+    chains_data = json.loads(chains_str.replace("'", '"'))
+
+    chains = []
+    for i, chain_data in enumerate(chains_data):
+        tasks = []
+        for j, (t, u) in enumerate(zip(chain_data['t'], chain_data['u'])):
+            tasks.append(Task(i=j, t=t, u=u))
+        chains.append(Chain(letter=ascii_uppercase[i], tasks=tasks))
+
+    reverse = False
+    average = form_data['calculation_type'] == 'average'
+    metric_type = MetricType.COMPLETION_TIME
+
+    try:
+        distribution1, criterion1 = Solver.solve_with_chains(
+            chains=chains,
+            reverse=reverse,
+            metric_type=metric_type,
+            average=average
+        )
+
+        distribution2, criterion2 = Solver.solve_with_tasks(
+            chains=chains,
+            reverse=reverse,
+            metric_type=metric_type,
+            average=average
+        )
+
+        solution = Solution(
+            distribution1=distribution1,
+            distribution2=distribution2,
+            criterion1=criterion1,
+            criterion2=criterion2
+        )
+
+        task_html = render_template(
+            'single_task_solution.html',
+            chains=chains,
+            solution=solution,
+            is_maximum=reverse,
+            is_average=average
+        )
+        return render_template('solution_page.html', task_html=task_html, title="Розв'язок задачі")
+
+    except NonUniqueRatioError:
+        return "Помилка: Неунікальні співвідношення. Спробуйте інші дані."
 
 
 @app.route("/")

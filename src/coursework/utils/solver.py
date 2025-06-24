@@ -118,8 +118,8 @@ class Solver:
                         best_ratio = ratio
 
             best_sequences = sequences_by_ratio[best_ratio]
-            if len(best_sequences) > 1:
-                raise NonUniqueRatioError()
+            # if len(best_sequences) > 1:
+            #     raise NonUniqueRatioError()
 
             best_sequence, best_chain_index = best_sequences[0]
             chain = remaining_chains[best_chain_index]

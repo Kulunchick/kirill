@@ -1,0 +1,41 @@
+<div class="task">
+    <h2>Розв'язок задачі</h2>
+    <hr>
+    <h4>Вхідні дані</h4>
+    <p>
+        <strong>Кількість ланцюгів:</strong> {{ chains | length }}<br>
+        <strong>Загальна кількість робіт:</strong> {{ chains|map(attribute='tasks')|map('length')|sum }}
+    </p>
+    <p><strong>Ланцюги:</strong></p>
+    <ul>
+        {% for chain in chains %}
+        <li>
+            Ланцюг {{ chain.letter }}:
+            {% for task in chain.tasks %}
+                (t={{ task.t }}, u={{ task.u }}){% if not loop.last %}; {% endif %}
+            {% endfor %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <p>
+        <strong>Знайти:</strong><br>
+        Таке упорядкування робіт, при якому досягається {% if is_maximum %}максимум{% else %}мінімум{% endif %} <strong>{% if is_average %}середньої зваженої{% else %}сумарної{% endif %}</strong> тривалості проходження робіт.
+    </p>
+
+    <hr>
+
+    <h4>Результати</h4>
+
+    <h5>а) Ланцюги не можуть розриватися</h5>
+    <p>
+        <strong>Оптимальне впорядкування груп робіт:</strong> {{ solution.distribution1 }}<br>
+        <strong>Оптимальне значення критерію:</strong> {{ solution.criterion1 | round(2) }}
+    </p>
+
+    <h5>б) Ланцюги можуть розриватися</h5>
+    <p>
+        <strong>Оптимальне впорядкування робіт:</strong> {{ solution.distribution2 }}<br>
+        <strong>Оптимальне значення критерію:</strong> {{ solution.criterion2 | round(2) }}
+    </p>
+</div> 

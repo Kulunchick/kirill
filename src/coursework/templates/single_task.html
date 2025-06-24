@@ -1,0 +1,42 @@
+{% include 'partials/header.html' %}
+
+<div class="jumbotron d-flex align-items-center min-vh-100">
+    <div class="container w-50 border border-3 border-secondary rounded-4 px-5">
+        <form method="post" action="{{ url_for('handle_single_task') }}">
+            <div class="container border border-2 border-secondary rounded-2 my-4 py-2">
+                <h5>Параметри задачі</h5>
+                <div class="row mb-3">
+                    <label for="chains" class="col-sm-3 col-form-label">Ланцюги:</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="chains" rows="5" placeholder="Введіть ланцюги у форматі:
+[
+  { 't': [t1, t2, ...], 'u': [u1, u2, ...] },
+  { 't': [t1, t2, ...], 'u': [u1, u2, ...] }
+]" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="container border border-2 border-secondary rounded-2 my-4 py-2">
+                <h5>Параметри розв'язку</h5>
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Цільова функція:</label>
+                    <div class="col-sm-8">
+                        <select class="form-select" name="calculation_type" required>
+                            <option value="total">Сумарне</option>
+                            <option value="average">Середнє зважене</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mb-3 mx-2">
+                <button type="submit" class="btn btn-primary">Розв'язати задачу</button>
+            </div>
+            <div class="row justify-content-center mb-3 mx-2">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">На головну</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% include 'partials/footer.html' %} 
