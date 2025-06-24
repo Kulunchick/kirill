@@ -116,7 +116,7 @@ def handle_single_task():
     for i, chain_data in enumerate(chains_data):
         tasks = []
         for j, (t, u) in enumerate(zip(chain_data['t'], chain_data['u'])):
-            tasks.append(Task(i=j, t=t, u=u))
+            tasks.append(Task(i=j+1, t=t, u=u))
         chains.append(Chain(letter=ascii_uppercase[i], tasks=tasks))
 
     reverse = False
